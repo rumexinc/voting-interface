@@ -35,7 +35,8 @@ import {useRouter} from "next/navigation";
 export default function Home() {
     const router = useRouter();
 
-    const all_ports = [2022,5660, 5680, 6633, 94742323230, 94767001001, 7788, 9900]
+
+    const all_ports = [2022, 5660, 5680, 6633, 94742323230, 94767001001, 7788, 9900]
 
     useEffect(() => {
         let jwtToken = sessionStorage.getItem("jwt");
@@ -51,6 +52,7 @@ export default function Home() {
     const [port, setPort] = useState<any>()
     const [result, setResult] = useState<any>([])
     const [totalVoteCount, setTotalVoteCount] = useState<number>(0)
+    const [disabled, setDisabled] = useState(false)
 
     const refractorDate = (date: any) => {
 
@@ -74,10 +76,11 @@ export default function Home() {
         // @ts-ignore
         console.log(port, new Date(startDate).toLocaleDateString('en-GB'), new Date(endDate).toLocaleDateString('en-GB'))
         if (port && startDate && endDate) {
+            setDisabled(true)
             setResult([])
             if (port === "ALL") {
 
-                all_ports.forEach((prt)=>{
+                all_ports.forEach((prt) => {
                     var myHeaders = new Headers();
                     myHeaders.append("Content-Type", "application/json");
                     myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBZG1pbiIsImlhdCI6MTcwNjY3OTkxNywiZXhwIjoxNzA2NzY2MzE3fQ.S05zFzb42Gp8XUEyXC14HLiz_wllIEz7Ozf9aTM5z4E");
@@ -101,7 +104,7 @@ export default function Home() {
                         .then(response => response.text())
                         .then(result => {
                             console.log(result)
-                            setTotalVoteCount(tvc => tvc+ +result)
+                            setTotalVoteCount(tvc => tvc + +result)
                             setResult((results: any) => [...results, {port: prt, result: result}])
                         })
                         .catch(error => console.log('error', error));
@@ -156,7 +159,11 @@ export default function Home() {
                         <h2 className="scroll-m-20 border-b pb-2 text-xl font-semibold tracking-tight first:mt-0 mb-5">
                             Vote Count Interface
                         </h2>
-                        <Select onValueChange={setPort}>
+                        <Select onValueChange={e => {
+                            setDisabled(false)
+                            setPort(e)
+                        }
+                        }>
                             <SelectTrigger className="w-full max-w-screen-md">
                                 <SelectValue placeholder="Select a port"/>
                             </SelectTrigger>
@@ -164,7 +171,8 @@ export default function Home() {
                                 <SelectGroup>
                                     <SelectLabel>Ports</SelectLabel>
                                     <SelectItem value="ALL">All</SelectItem>
-                                    {all_ports && all_ports.map(prt=> <SelectItem key={prt} value={prt+""}>{prt}</SelectItem>)}
+                                    {all_ports && all_ports.map(prt => <SelectItem key={prt}
+                                                                                   value={prt + ""}>{prt}</SelectItem>)}
 
                                 </SelectGroup>
                             </SelectContent>
@@ -188,7 +196,10 @@ export default function Home() {
                                 <Calendar
                                     mode="single"
                                     selected={startDate}
-                                    onSelect={setStartDate}
+                                    onSelect={date => {
+                                        setStartDate(date)
+                                        setDisabled(false)
+                                    }}
                                     initialFocus
                                 />
                             </PopoverContent>
@@ -211,13 +222,16 @@ export default function Home() {
                                 <Calendar
                                     mode="single"
                                     selected={endDate}
-                                    onSelect={setEndDate}
+                                    onSelect={date => {
+                                        setEndDate(date)
+                                        setDisabled(false)
+                                    }}
                                     initialFocus
                                 />
                             </PopoverContent>
                         </Popover>
 
-                        <Button onClick={getVoteCount} className={"w-full mt-3"}>Search</Button>
+                        <Button disabled={disabled} onClick={getVoteCount} className={"w-full mt-3"}>Search</Button>
                     </div>
 
                     {result.length > 0 && <Table className={"mt-5"}>
@@ -238,7 +252,7 @@ export default function Home() {
                         </TableBody>
                         <TableFooter>
                             <TableRow>
-                                    <TableCell colSpan={3}>Total Vote Count</TableCell>
+                                <TableCell colSpan={3}>Total Vote Count</TableCell>
                                 <TableCell className="text-right">{totalVoteCount}</TableCell>
                             </TableRow>
                         </TableFooter>
