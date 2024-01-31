@@ -164,7 +164,7 @@ export default function Home() {
                                 <SelectGroup>
                                     <SelectLabel>Ports</SelectLabel>
                                     <SelectItem value="ALL">All</SelectItem>
-                                    {all_ports && all_ports.map(prt=> <SelectItem value={prt+""}>{prt}</SelectItem>)}
+                                    {all_ports && all_ports.map(prt=> <SelectItem key={prt} value={prt+""}>{prt}</SelectItem>)}
 
                                 </SelectGroup>
                             </SelectContent>
