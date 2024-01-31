@@ -137,6 +137,7 @@ export default function Home() {
                     .then(result => {
                         console.log(result)
                         setResult((results: any) => [...results, {port: port, result: result}])
+                        setTotalVoteCount(+result)
                     })
                     .catch(error => console.log('error', error));
             }
