@@ -52,7 +52,7 @@ const Login = () => {
             };
 
             // @ts-ignore
-            fetch("https://cors-everywhere.herokuapp.com/http://202.124.190.118:6410/api/login", requestOptions)
+            fetch("http://202.124.190.118:6410/api/login", requestOptions)
                 .then(response => { return {
                     status: response.status,
                     body:  response.text()
