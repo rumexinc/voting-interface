@@ -77,6 +77,7 @@ export default function Home() {
         console.log(port, new Date(startDate).toLocaleDateString('en-GB'), new Date(endDate).toLocaleDateString('en-GB'))
         if (port && startDate && endDate) {
             setDisabled(true)
+            setTotalVoteCount(0)
             setResult([])
             if (port === "ALL") {
 
