@@ -97,7 +97,7 @@ export default function Home() {
                     };
 
                     // @ts-ignore
-                    fetch("http://202.124.190.118:6410/api/getVoteCount", requestOptions)
+                    fetch("https://cors-everywhere.herokuapp.com/http://202.124.190.118:6410/api/getVoteCount", requestOptions)
                         .then(response => response.text())
                         .then(result => {
                             console.log(result)
@@ -128,7 +128,7 @@ export default function Home() {
                 };
 
                 // @ts-ignore
-                fetch("http://202.124.190.118:6410/api/getVoteCount", requestOptions)
+                fetch("https://cors-everywhere.herokuapp.com/http://202.124.190.118:6410/api/getVoteCount", requestOptions)
                     .then(response => response.text())
                     .then(result => {
                         console.log(result)
