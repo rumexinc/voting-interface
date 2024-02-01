@@ -30,6 +30,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import {useRouter} from "next/navigation";
+import {createMetadataExportsCode} from "next/dist/build/webpack/loaders/metadata/discover";
 
 
 export default function Home() {
@@ -54,10 +55,17 @@ export default function Home() {
     const [totalVoteCount, setTotalVoteCount] = useState<number>(0)
     const [disabled, setDisabled] = useState(false)
 
-    const refractorDate = (date: any) => {
+    const refractorDate = (date: any, inc:boolean) => {
 
 // Create a new Date object from the input string
         var dateObject = new Date(date);
+
+        console.log("inc",inc)
+        if(inc){
+
+            dateObject.setDate(dateObject.getDate()+1)
+            console.log(true, dateObject)
+        }
 
 // Get year, month, and day
         var year = dateObject.getFullYear();
@@ -88,8 +96,8 @@ export default function Home() {
                     myHeaders.append("Cookie", "JSESSIONID=5A82E95DE3272E4D0A7D2AC870AA809C; JSESSIONID=A551B816E1D2EC4DF3EA1F790E5EAD9C");
 
                     var raw = JSON.stringify({
-                        "startDate": refractorDate(startDate),
-                        "endDate": refractorDate(endDate),
+                        "startDate": refractorDate(startDate,false),
+                        "endDate": refractorDate(endDate,true),
                         "port": prt
                     });
 
@@ -119,8 +127,8 @@ export default function Home() {
                 myHeaders.append("Cookie", "JSESSIONID=5A82E95DE3272E4D0A7D2AC870AA809C; JSESSIONID=A551B816E1D2EC4DF3EA1F790E5EAD9C");
 
                 var raw = JSON.stringify({
-                    "startDate": refractorDate(startDate),
-                    "endDate": refractorDate(endDate),
+                    "startDate": refractorDate(startDate,false),
+                    "endDate": refractorDate(endDate,true),
                     "port": port
                 });
 
