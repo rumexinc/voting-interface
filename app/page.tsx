@@ -50,6 +50,7 @@ export default function Home() {
 
     const [startDate, setStartDate] = useState<Date>()
     const [endDate, setEndDate] = useState<Date>()
+    const [tempDate, setTempDate] = useState<Date>()
     const [port, setPort] = useState<any>()
     const [result, setResult] = useState<any>([])
     const [totalVoteCount, setTotalVoteCount] = useState<number>(0)
@@ -57,6 +58,7 @@ export default function Home() {
 
     const refractorDate = (date: any, inc:boolean) => {
 
+        console.log(date)
 // Create a new Date object from the input string
         var dateObject = new Date(date);
 
@@ -84,6 +86,9 @@ export default function Home() {
         // @ts-ignore
         console.log(port, new Date(startDate).toLocaleDateString('en-GB'), new Date(endDate).toLocaleDateString('en-GB'))
         if (port && startDate && endDate) {
+            setTempDate(new Date(endDate))
+            tempDate?.setDate(endDate.getDate()+1)
+
             setDisabled(true)
             setTotalVoteCount(0)
             setResult([])
@@ -96,8 +101,8 @@ export default function Home() {
                     myHeaders.append("Cookie", "JSESSIONID=5A82E95DE3272E4D0A7D2AC870AA809C; JSESSIONID=A551B816E1D2EC4DF3EA1F790E5EAD9C");
 
                     var raw = JSON.stringify({
-                        "startDate": refractorDate(startDate,false),
-                        "endDate": refractorDate(endDate,true),
+                        "startDate": startDate,
+                        "endDate": tempDate,
                         "port": prt
                     });
 
@@ -127,8 +132,8 @@ export default function Home() {
                 myHeaders.append("Cookie", "JSESSIONID=5A82E95DE3272E4D0A7D2AC870AA809C; JSESSIONID=A551B816E1D2EC4DF3EA1F790E5EAD9C");
 
                 var raw = JSON.stringify({
-                    "startDate": refractorDate(startDate,false),
-                    "endDate": refractorDate(endDate,true),
+                    "startDate": startDate,
+                    "endDate": tempDate,
                     "port": port
                 });
 
