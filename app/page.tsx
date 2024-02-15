@@ -50,11 +50,10 @@ export default function Home() {
 
     const [startDate, setStartDate] = useState<Date>()
     const [endDate, setEndDate] = useState<Date>()
-    const [tempDate, setTempDate] = useState<Date>()
     const [port, setPort] = useState<any>()
     const [result, setResult] = useState<any>([])
     const [totalVoteCount, setTotalVoteCount] = useState<number>(0)
-    const [disabled, setDisabled] = useState(false)
+    const [disabled, setDisabled] = useState(true)
 
     const refractorDate = (date: any, inc:boolean) => {
 
@@ -83,11 +82,12 @@ export default function Home() {
 
     const getVoteCount = () => {
 
+        endDate?.setDate(endDate?.getDate()+1)
+
         // @ts-ignore
         console.log(port, new Date(startDate).toLocaleDateString('en-GB'), new Date(endDate).toLocaleDateString('en-GB'))
         if (port && startDate && endDate) {
-            setTempDate(new Date(endDate))
-            tempDate?.setDate(endDate.getDate()+1)
+
 
             setDisabled(true)
             setTotalVoteCount(0)
@@ -102,7 +102,7 @@ export default function Home() {
 
                     var raw = JSON.stringify({
                         "startDate": startDate,
-                        "endDate": tempDate,
+                        "endDate": endDate,
                         "port": prt
                     });
 
@@ -133,7 +133,7 @@ export default function Home() {
 
                 var raw = JSON.stringify({
                     "startDate": startDate,
-                    "endDate": tempDate,
+                    "endDate": endDate,
                     "port": port
                 });
 
