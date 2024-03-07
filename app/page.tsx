@@ -37,7 +37,7 @@ export default function Home() {
     const router = useRouter();
 
 
-    const all_ports = [2022, 5660, 5680, 6633, 94742323230, 94767001001, 7788, 9900, 5666]
+    const all_ports = [2022, 5660, 5680, 6633, 94742323230, 94767001001, 7788, 9900, 5666, 94767074734]
 
     useEffect(() => {
         let jwtToken = sessionStorage.getItem("jwt");
